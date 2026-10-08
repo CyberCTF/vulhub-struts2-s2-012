@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://www.isoloom.com/schema/v1.json
+# Struts2 S2-012 (Vulhub, by phith0n and the Vulhub contributors) as an Isoloom spec:
+# Vulhub's struts2/s2-012, vendored in app/ and built from Vulhub's Dockerfile as is.
+# `isoloom generate`, then `isoloom run docker`.
+version: 1
+name: vulhub-struts2-s2-012
+
+networks:
+  lab: { cidr: 10.61.10.0/24, internet: false }
+
+machines:
+  struts2:
+    networks: { lab: 10 }
+    services: [{ port: 8080, name: web, http: true, publish: 8080 }]
+    resources: { cpus: 1, memory_mb: 512 }
+    docker:
+      build: app
+
+checks:
+  - name: the application answers
+    http: http://struts2:8080/
+    wait: 120
+  - name: the index is the S2-012 form posting to user.action
+    script: checks/form.sh
+    wait: 60
+
+message: |
+  A Struts2 application answers at http://localhost:{{ machines.struts2.services.0.publish }}/.
+  The form's action redirects with your name in the URL. How is that URL built?
