@@ -4,11 +4,5 @@
   "question": "Exploit S2-012 to run commands on the Struts2 server and get a shell.",
   "category": "WEB",
   "difficulty": 2,
-  "evidence_kind": "SECRET",
-  "capabilities": [
-    "ognl-injection",
-    "remote-code-execution",
-    "java",
-    "struts2"
-  ]
+  "evidence_kind": "SECRET"
 }
